@@ -1,64 +1,86 @@
-import React from 'react';
-import './App.css';
-import store from './store'
+import { useState} from 'react';
+import style from'./App.module.css';
 
-class App extends React.Component {
+const arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+function App() {
 
-	constructor() {
-		super()
-		this.state = {
-			out: '0'
+	const [operand1, setOperand1] = useState('0')
+	const [operand2, setOperand2] = useState('')
+	const [operator, setOperator] = useState('')
+
+	const handleClick = (arg) => {
+
+		if (operand1 === "0") {
+			setOperand1(arg)
+		} else if (operator) {
+			setOperand2((prev) => prev + arg)
+		} else {
+			setOperand1((prevState) => prevState + arg)	
 		}
-		this.refOutput = React.createRef()
-	}
-
-	tapeNumber(value) {
-		let currentValue = value
-		let output = this.refOutput.current
-		
-		this.setState( {
-			out: currentValue
-		})
-		
-		if (output.value === '0') {output.value = ''}
-		output.value += currentValue
 
 	}
-
-	tapeOperation(value) {
-		let output = this.refOutput.current
-
-		if (value === 'C') {output.value = '0'}
-		else if (value === '=') {
-			try {output.value = eval(output.value)}
-			catch {
-				output.value = 'Недопустимое значение'
-				setTimeout()
-				setTimeout(() => {
-					output.value = '0'
-				}, 1500)
+	const handleOperators = (arg) => {
+		if (operand1 !== '0') {
+			setOperator(arg)
+		}
+	}
+	const handleResult = () => {
+		switch (operator) {
+			case '+': {
+				setOperand1(Number(operand1) + Number(operand2))
+				setOperand2('')
+				setOperator('')
 			}
-		}
+			default:
+				break;
+			case '-': {
+				setOperand1('')
+				setOperand2(Number(operand1) - Number(operand2))
+				setOperator('')
+			}
+				break;
+		}	
+	}
+	const handleClear = () => {
+		setOperand1('0')
+		setOperand2('')
+		setOperator('')
 	}
 
-	render() {
-		return (
-			<div className="container">
-				<div className='output'>
-					<input ref={this.refOutput} type="text" defaultValue={this.state.out} /> 
-				</div>
-				<div className="buttons">
-					{store.buttons.map((item, index) => <button
-					key={index}
-					onClick={() => {this.tapeNumber(item.val)}}
-					>{item.val}</button>)}
-					{store.operations.map((item, index) => <button
-						key={index}
-						onClick={() => {this.tapeOperation(item.val)}}
-					>{item.val}</button>)}
-				</div>
+	const displayValue = operand1 + operator + operand2
+
+	return (
+		<div className='App' >
+			<div className={style.Display}>{displayValue}</div>
+			<div className={style.Buttons} >
+				{arr.map((item, index) => {
+					return (
+						<div key={index} onClick={() => handleClick(item)} className={style.Button} >
+							{item}
+						</div>
+					)
+				}
+				)}
 			</div>
-		)
-	}
+			<div className={style.Operators}>
+				<button onClick={() => handleOperators('+')} >
+					+
+				</button>
+
+				<button onClick={() => handleOperators('-')} >
+					-
+				</button>
+
+				<button onClick={handleResult} >
+					=
+				</button>
+				<button onClick={handleClear} >
+					C
+				</button>
+			</div>
+		</div>
+	);
 }
-export default App
+
+export default App;
+
