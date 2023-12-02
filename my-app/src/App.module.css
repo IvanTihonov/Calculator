@@ -1,5 +1,15 @@
 .Buttons {
     display: flex;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    padding: 10px;
+  
+    text-align: center;
+    background: darkgrey;
+    border: 1px solid dimgrey;
+    border-radius: 5px;
 }
 
 .Button {
@@ -10,3 +20,30 @@
     width: 30px;
     height: 30px;
 }
+
+.Operators{
+    display: flex;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    padding: 10px;
+  
+    text-align: center;
+    background: darkgrey;
+    border: 1px solid dimgrey;
+    border-radius: 5px;
+}
+
+.Display {
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10rem;
+    padding: 1px;
+  
+    text-align: center;
+    background: rgb(248, 246, 246);
+    border: 1px solid dimgrey;
+    border-radius: 5px;
+  }
